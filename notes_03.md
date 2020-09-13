@@ -127,3 +127,126 @@ impl Rectangle {
 This can then be called with `Rectangle::square(3);`
 
 You can have a single impl block or multiple.
+
+## ENUMS
+
+```
+enum IpAddrKind {
+    V4,
+    V6,
+}
+```
+
+`let four = IpAddrKind::V4;`
+
+Like other languages, we can associate values with enum values as well.
+
+```
+enum IpAddr {
+    V4(String),
+    V6(String),
+}
+
+let home = IpAddr::V4(String::from("127.0.0.1"));
+
+let loopback = IpAddr::V6(String::from("::1"));
+```
+
+The types of data in the enums can be a variety of values, they dont need to be a single type.
+
+Enums can also have methods defined using `impl`.
+
+### Option Enum
+
+Like `Optional` in Java. In Rust:
+
+```
+enum Option<T> {
+    Some(T),
+    None,
+}
+```
+
+```
+    let x: i8 = 5;
+    let y: Option<i8> = Some(5);
+
+    let sum = x + y;
+```
+
+^^ This will throw an error since you can't add an i8 and an `Option<i8>`
+More on that `https://doc.rust-lang.org/std/option/enum.Option.html`
+Useful methods: `is_some`, `is_none`, `contains`, `as_ref`, `as_mut`, `unwrap`, `unwrap_or`, `unwrap_or_else`, `map`
+
+## MATCH AND IF LET
+
+Matches are designed to match against the possibilities. Note that the match needs to be exhaustive so all possibilities need to be covered or defaults need to be provided.
+
+```
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter,
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => {
+            println!("Lucky penny!");
+            1
+        },
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter => 25,
+    }
+}
+```
+
+```
+enum UsState {
+    Alabama,
+    Alaska,
+    // --snip--
+}
+
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter(UsState),
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter(state) => {
+            println!("State quarter from {:?}!", state);
+            25
+        }
+    }
+}
+```
+
+If you only care about a few possibilities, you can match for those and then put a placeholder to account for the rest.
+
+```
+let some_u8_value = 0u8;
+match some_u8_value {
+    1 => println!("one"),
+    3 => println!("three"),
+    5 => println!("five"),
+    7 => println!("seven"),
+    _ => (),
+}
+```
+
+If you only care about a single possibility, then it may be better to just use if let instead to avoid the verbosity.
+
+```
+if let Some(3) = some_u8_value {
+    println!("three");
+}
+```
