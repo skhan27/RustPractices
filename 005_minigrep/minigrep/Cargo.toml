@@ -1,5 +1,5 @@
 [package]
-name = "restaurant"
+name = "minigrep"
 version = "0.1.0"
 authors = ["Saim Khan <saim2028@hotmail.com>"]
 edition = "2018"
