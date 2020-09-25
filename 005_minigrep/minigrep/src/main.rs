@@ -2,8 +2,7 @@ use minigrep::Config;
 use std::env;
 use std::process;
 fn main() {
-    let args: Vec<String> = env::args().collect(); // the first value in the args is the name of the binary
-    let config = Config::new(&args).unwrap_or_else(|err| {
+    let config = Config::new(env::args()).unwrap_or_else(|err| {
         eprintln!("Problem parsing arguments: {}", err);
         process::exit(1)
     });
